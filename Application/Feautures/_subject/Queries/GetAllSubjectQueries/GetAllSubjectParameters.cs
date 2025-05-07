@@ -6,7 +6,5 @@ namespace Application.Feautures._subject.Queries.GetAllSubjectQueries
     {
         public string? Name { get; set; }
         public bool? IsActive { get; set; }
-        public int? Year { get; set; }
-        public int? Semester { get; set; }
     }
 }

@@ -6,13 +6,14 @@ using System.Reflection;
 
 namespace Persistence.Contexts
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         private readonly IDateTimeService _dateTime;
-        public ApplicationDbContext (
+
+        public ApplicationDbContext(
             DbContextOptions<ApplicationDbContext> options,
-            IDateTimeService datetime) 
-        : base(options) 
+            IDateTimeService datetime)
+        : base(options)
         {
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this._dateTime = datetime;
@@ -20,10 +21,11 @@ namespace Persistence.Contexts
 
         public DbSet<Career> Careers { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<CareerSubject> CareerSubjects { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            foreach(var entry in ChangeTracker.Entries<BaseEntity>())
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
             {
                 switch (entry.State)
                 {
@@ -31,7 +33,7 @@ namespace Persistence.Contexts
                         entry.Entity.Created = _dateTime.NowUtc;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.LastModified = _dateTime.NowUtc; 
+                        entry.Entity.LastModified = _dateTime.NowUtc;
                         break;
                 }
             }
@@ -40,6 +42,18 @@ namespace Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CareerSubject>()
+                .HasKey(cs => new { cs.CareerId, cs.SubjectId });
+            modelBuilder.Entity<CareerSubject>()
+                .HasOne(cs => cs.Career)
+                .WithMany(c => c.CareerSubjects)
+                .HasForeignKey(cs => cs.CareerId);
+            modelBuilder.Entity<CareerSubject>()
+                .HasOne(cs => cs.Subject)
+                .WithMany(s => s.CareerSubjects)
+                .HasForeignKey(cs => cs.SubjectId);
+
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

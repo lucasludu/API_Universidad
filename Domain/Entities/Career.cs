@@ -10,6 +10,6 @@ namespace Domain.Entities
         public bool IsActive { get; set; } = true;
 
         // Relationship: one career has many subjects
-        public List<Subject> Subjects { get; set; } = new();
+        public ICollection<CareerSubject> CareerSubjects { get; set; } 
     }
 }

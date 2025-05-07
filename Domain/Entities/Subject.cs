@@ -8,12 +8,7 @@ namespace Domain.Entities
         public string? Description { get; set; }
         public bool IsActive { get; set; } = true;
 
-        public int Year { get; set; }              // 🔹 Año (1, 2, etc.)
-        public int Semester { get; set; }          // 🔹 Cuatrimestre (1 o 2)
-
-        // Foreign key and relationship
-        public int CareerId { get; set; }
-        public Career Career { get; set; }
+        public ICollection<CareerSubject> CareerSubjects { get; set; }
     }
 
 }

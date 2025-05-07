@@ -2,10 +2,8 @@
 using Application.Feautures._subject.Commands.DeactivateSubjectCommands;
 using Application.Feautures._subject.Commands.EnableSubjectCommands;
 using Application.Feautures._subject.Commands.ToggleSubjectCommands;
-using Application.Feautures._subject.Commands.UploadSubjectsCommands;
 using Application.Feautures._subject.Queries.GetAllSubjectQueries;
 using Microsoft.AspNetCore.Mvc;
-using Models._career.Request;
 using Models._subject.Request;
 
 namespace WebApi.Controllers.V1
@@ -25,18 +23,6 @@ namespace WebApi.Controllers.V1
         }
 
         /// <summary>
-        /// Upload subjects from an Excel file
-        /// </summary>
-        /// <param name="careerId"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        [HttpPost("upload-subjects")]
-        public async Task<IActionResult> UploadSubjects([FromForm] UploadSubjectsRequest form)
-        {
-            return Ok(await Mediator.Send(new UploadSubjectsCommand(form.CareerId, form.File)));
-        }
-
-        /// <summary>
         /// Get all subjects
         /// </summary>
         /// <param name="filter"></param>
@@ -49,9 +35,7 @@ namespace WebApi.Controllers.V1
                 PageNumber = filter.PageNumber,
                 PageSize = filter.PageSize,
                 Name = filter.Name,
-                IsActive = filter.IsActive,
-                Year = filter.Year,
-                Semester = filter.Semester
+                IsActive = filter.IsActive
             }));
         }
 

@@ -14,9 +14,8 @@ namespace Application.Feautures._subject.Queries.GetAllSubjectQueries
         public int PageSize { get; set; }
         public string? Name { get; set; }
         public bool? IsActive { get; set; }
-        public int? Year { get; set; }
-        public int? Semester { get; set; }
     }
+
     public class GetAllSubjectQueryHandler : IRequestHandler<GetAllSubjectQuery, PagedResponse<List<SubjectResponse>>>
     {
         private readonly IRepositoryAsync<Subject> _subjectRepositoryAsync;
@@ -30,7 +29,7 @@ namespace Application.Feautures._subject.Queries.GetAllSubjectQueries
 
         public async Task<PagedResponse<List<SubjectResponse>>> Handle(GetAllSubjectQuery request, CancellationToken cancellationToken)
         {
-            var spec = new GetPagedSubjectSpec(request.PageSize, request.PageNumber, request.Name, request.IsActive, request.Year, request.Semester);
+            var spec = new GetPagedSubjectSpec(request.PageSize, request.PageNumber, request.Name, request.IsActive);
 
             var subjects = await _subjectRepositoryAsync.ListAsync(spec, cancellationToken);
 

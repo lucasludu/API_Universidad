@@ -15,8 +15,7 @@ namespace Application.Mappings
             CreateMap<Career, CareerResponse>().ReverseMap();
 
             CreateMap<Subject, SubjectInsertRequest>().ReverseMap();
-            CreateMap<Subject, SubjectResponse>()
-                .ForMember(dest => dest.Career, opt => opt.MapFrom(src => src.Career.Name));
+            CreateMap<Subject, SubjectResponse>().ReverseMap();
         }
     }
 }
