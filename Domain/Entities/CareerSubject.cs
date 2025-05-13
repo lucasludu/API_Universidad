@@ -10,6 +10,5 @@
 
         public int Year { get; set; }
         public int Semester { get; set; }
-        public bool IsActive { get; set; } = true;
     }
 }

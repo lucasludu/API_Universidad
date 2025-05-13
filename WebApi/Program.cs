@@ -1,9 +1,7 @@
 ﻿using Application;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.OpenApi.Models;
 using Persistence;
+using Persistence.Seed;
 using Shared;
-using System.Reflection;
 using WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +18,12 @@ builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await IdentitySeed.SeedAsync(services);
+}
 
 // Middleware para redirigir "/" a "/swagger" sin generar un endpoint visible en Swagger
 app.Use(async (context, next) =>

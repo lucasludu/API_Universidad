@@ -1,12 +1,13 @@
 ﻿using Application.Interfaces;
 using Domain.Common;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace Persistence.Contexts
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>, IApplicationDbContext
     {
         private readonly IDateTimeService _dateTime;
 
@@ -22,10 +23,14 @@ namespace Persistence.Contexts
         public DbSet<Career> Careers { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<CareerSubject> CareerSubjects { get; set; }
+        public DbSet<Profesor> Profesores { get; set; }
+        public DbSet<Estudiante> Estudiantes { get; set; }
+        public DbSet<ProfesorSubject> ProfesorSubjects { get; set; }
+        public DbSet<EstudianteSubject> EstudianteSubjects { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            foreach (var entry in ChangeTracker.Entries<TraceableEntity>())
             {
                 switch (entry.State)
                 {
@@ -42,18 +47,7 @@ namespace Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CareerSubject>()
-                .HasKey(cs => new { cs.CareerId, cs.SubjectId });
-            modelBuilder.Entity<CareerSubject>()
-                .HasOne(cs => cs.Career)
-                .WithMany(c => c.CareerSubjects)
-                .HasForeignKey(cs => cs.CareerId);
-            modelBuilder.Entity<CareerSubject>()
-                .HasOne(cs => cs.Subject)
-                .WithMany(s => s.CareerSubjects)
-                .HasForeignKey(cs => cs.SubjectId);
-
-
+            base.OnModelCreating(modelBuilder); // 💥 importante
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
