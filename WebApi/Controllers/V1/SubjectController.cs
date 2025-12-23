@@ -1,10 +1,10 @@
-﻿using Application.Feautures._subject.Commands.AddSubjectCommands;
-using Application.Feautures._subject.Commands.DeactivateSubjectCommands;
-using Application.Feautures._subject.Commands.EnableSubjectCommands;
-using Application.Feautures._subject.Commands.ToggleSubjectCommands;
-using Application.Feautures._subject.Queries.GetAllSubjectQueries;
+using Application.Features._subject.Commands.AddSubjectCommands;
+using Application.Features._subject.Commands.DeactivateSubjectCommands;
+using Application.Features._subject.Commands.EnableSubjectCommands;
+using Application.Features._subject.Commands.ToggleSubjectCommands;
+using Application.Features._subject.Queries.GetAllSubjectQueries;
 using Microsoft.AspNetCore.Mvc;
-using Models._subject.Request;
+using Application.DTOs._subject.Request;
 
 namespace WebApi.Controllers.V1
 {

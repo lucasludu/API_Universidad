@@ -1,9 +1,9 @@
-﻿using Application.Feautures._career_subject.Commands.AddCareerSubjectCommands;
-using Application.Feautures._career_subject.Commands.AddCareerSubjectsBatchCommands;
+using Application.Features._career_subject.Commands.AddCareerSubjectCommands;
+using Application.Features._career_subject.Commands.AddCareerSubjectsBatchCommands;
 using Application.Parameters;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
-using Models._career_subject.Request;
+using Application.DTOs._career_subject.Request;
 
 namespace WebApi.Controllers.V1
 {

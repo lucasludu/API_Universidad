@@ -1,10 +1,10 @@
-﻿using Application.Feautures._career.Commands.AddCareerCommands;
-using Application.Feautures._career.Commands.DeactivateCareerCommands;
-using Application.Feautures._career.Commands.EnableCareerCommands;
-using Application.Feautures._career.Commands.ToggleCareerStatusCommands;
-using Application.Feautures._career.Queries.GetAllCareerQueries;
+using Application.Features._career.Commands.AddCareerCommands;
+using Application.Features._career.Commands.DeactivateCareerCommands;
+using Application.Features._career.Commands.EnableCareerCommands;
+using Application.Features._career.Commands.ToggleCareerStatusCommands;
+using Application.Features._career.Queries.GetAllCareerQueries;
 using Microsoft.AspNetCore.Mvc;
-using Models._career.Request;
+using Application.DTOs._career.Request;
 
 namespace WebApi.Controllers.V1
 {

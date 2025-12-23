@@ -23,11 +23,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Models\Models.csproj" />
+
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Feautures\_career_subject\Queries\" />
+    <Folder Include="Features\_career_subject\Queries\" />
   </ItemGroup>
 
 </Project>

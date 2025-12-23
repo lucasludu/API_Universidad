@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +25,13 @@ namespace Persistence.Seed
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)
             {
-                var user = new ApplicationUser { UserName = adminEmail, Nombre = name, Apellido = lastName, Email = adminEmail };
+                var user = new ApplicationUser
+                {
+                    UserName = adminEmail,
+                    Nombre = name,
+                    Apellido = lastName,
+                    Email = adminEmail 
+                };
                 await userManager.CreateAsync(user, "Admin123!");
                 await userManager.AddToRoleAsync(user, "Admin");
             }

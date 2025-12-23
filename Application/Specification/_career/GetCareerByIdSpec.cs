@@ -1,4 +1,4 @@
-﻿using Ardalis.Specification;
+using Ardalis.Specification;
 using Domain.Entities;
 
 namespace Application.Specification._career

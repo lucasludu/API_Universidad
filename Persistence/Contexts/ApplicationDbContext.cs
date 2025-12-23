@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Domain.Common;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -27,6 +27,7 @@ namespace Persistence.Contexts
         public DbSet<Estudiante> Estudiantes { get; set; }
         public DbSet<ProfesorSubject> ProfesorSubjects { get; set; }
         public DbSet<EstudianteSubject> EstudianteSubjects { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -47,7 +48,7 @@ namespace Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); // 💥 importante
+            base.OnModelCreating(modelBuilder); // ?? importante
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,12 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Contexts;
 using Persistence.Repository;
+using Persistence.Services;
 
 namespace Persistence
 {
     public static class ServiceExtensions
     {
-        public static void AddPersistenceInfraestructure(this IServiceCollection services, IConfiguration configuration)
+        public static void AddPersistenceInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
@@ -34,6 +35,8 @@ namespace Persistence
             #region Repositories
             services.AddTransient(typeof(IRepositoryAsync<>), typeof(MyRepositoryAsync<>));
             #endregion
+
+            services.AddTransient<IAccountService, AccountService>();
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Domain.Entities;
-using Models._career.Request;
-using Models._career.Response;
-using Models._subject.Request;
-using Models._subject.Response;
+using Application.DTOs._career.Request;
+using Application.DTOs._career.Response;
+using Application.DTOs._subject.Request;
+using Application.DTOs._subject.Response;
 
 namespace Application.Mappings
 {
