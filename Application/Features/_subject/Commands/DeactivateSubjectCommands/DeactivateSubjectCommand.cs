@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features._subject.Commands.DeactivateSubjectCommands
 {
-    public class DeactivateSubjectCommand : IRequest<Response<int>>
+    public class DeactivateSubjectCommand : IRequest<Response<Guid>>
     {
         public int Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace Application.Features._subject.Commands.DeactivateSubjectCommands
             Id = id;
         }
     }
-    public class DeactivateSubjectCommandHandler : IRequestHandler<DeactivateSubjectCommand, Response<int>>
+    public class DeactivateSubjectCommandHandler : IRequestHandler<DeactivateSubjectCommand, Response<Guid>>
     {
         private readonly IRepositoryAsync<Subject> _subjectRepositoryAsync;
 
@@ -23,19 +23,19 @@ namespace Application.Features._subject.Commands.DeactivateSubjectCommands
             _subjectRepositoryAsync = subjectRepositoryAsync;
         }
 
-        public async Task<Response<int>> Handle(DeactivateSubjectCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(DeactivateSubjectCommand request, CancellationToken cancellationToken)
         {
             var subject = await _subjectRepositoryAsync.GetByIdAsync(request.Id, cancellationToken);
             if (subject == null)
-                return new Response<int>($"Subject with ID {request.Id} not found");
+                return new Response<Guid>($"Subject with ID {request.Id} not found");
 
             if (!subject.IsActive)
-                return new Response<int>($"Subject with ID {request.Id} is already inactive");
+                return new Response<Guid>($"Subject with ID {request.Id} is already inactive");
 
             subject.IsActive = false;
             await _subjectRepositoryAsync.UpdateAsync(subject, cancellationToken);
 
-            return new Response<int>(subject.Id, "Subject succesfully deactivated");
+            return new Response<Guid>(subject.Id, "Subject succesfully deactivated");
         }
     }
 }

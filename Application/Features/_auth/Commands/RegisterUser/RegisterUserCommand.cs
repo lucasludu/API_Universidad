@@ -2,8 +2,6 @@ using Application.DTOs._auth.Request;
 using Application.Interfaces;
 using Application.Wrappers;
 using MediatR;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Application.Features._auth.Commands.RegisterUser
 {

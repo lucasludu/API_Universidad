@@ -1,11 +1,7 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Domain.Common
 {
-    public abstract class TraceableEntity
+    public abstract class AuditableEntity
     {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
         public bool IsActive { get; set; } = true;
         public string? CreatedBy { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;

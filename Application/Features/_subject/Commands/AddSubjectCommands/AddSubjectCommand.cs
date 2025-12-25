@@ -9,7 +9,7 @@ using Application.DTOs._subject.Request;
 
 namespace Application.Features._subject.Commands.AddSubjectCommands
 {
-    public class AddSubjectCommand : IRequest<Response<int>>
+    public class AddSubjectCommand : IRequest<Response<Guid>>
     {
         public SubjectInsertRequest Request { get; set; }
 
@@ -18,7 +18,7 @@ namespace Application.Features._subject.Commands.AddSubjectCommands
             Request = request;
         }
     }
-    public class AddSubjectCommandHandler : IRequestHandler<AddSubjectCommand, Response<int>>
+    public class AddSubjectCommandHandler : IRequestHandler<AddSubjectCommand, Response<Guid>>
     {
         private readonly IRepositoryAsync<Subject> _subjectRepositoryAsync;
         private readonly IMapper _mapper;
@@ -32,17 +32,17 @@ namespace Application.Features._subject.Commands.AddSubjectCommands
             _mapper = mapper;
         }
 
-        public async Task<Response<int>> Handle(AddSubjectCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(AddSubjectCommand request, CancellationToken cancellationToken)
         {
             var subjectSpec = new SubjectByNameSpec(request.Request.Name);
             var subjectExists = await _subjectRepositoryAsync.AnyAsync(subjectSpec, cancellationToken);
             if(subjectExists)
-                return new Response<int>($"A subject with this name ({request.Request.Name}) already exists in this career");
+                return new Response<Guid>($"A subject with this name ({request.Request.Name}) already exists in this career");
 
             var subject = _mapper.Map<Subject>(request.Request);
             await _subjectRepositoryAsync.AddAsync(subject, cancellationToken);
 
-            return new Response<int>(subject.Id, "Subject created successfully");
+            return new Response<Guid>(subject.Id, "Subject created successfully");
         }
     }
 }

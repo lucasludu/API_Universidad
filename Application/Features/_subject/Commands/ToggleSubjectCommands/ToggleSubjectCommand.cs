@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features._subject.Commands.ToggleSubjectCommands
 {
-    public class ToggleSubjectCommand : IRequest<Response<int>>
+    public class ToggleSubjectCommand : IRequest<Response<Guid>>
     {
         public int Id { get; set; }
 
@@ -15,7 +15,7 @@ namespace Application.Features._subject.Commands.ToggleSubjectCommands
         }
     }
 
-    public class ToggleSubjectCommandHandler : IRequestHandler<ToggleSubjectCommand, Response<int>>
+    public class ToggleSubjectCommandHandler : IRequestHandler<ToggleSubjectCommand, Response<Guid>>
     {
         private readonly IRepositoryAsync<Subject> _subjectRepositoryAsync;
 
@@ -24,17 +24,17 @@ namespace Application.Features._subject.Commands.ToggleSubjectCommands
             _subjectRepositoryAsync = subjectRepositoryAsync;
         }
 
-        public async Task<Response<int>> Handle(ToggleSubjectCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(ToggleSubjectCommand request, CancellationToken cancellationToken)
         {
             var subject = await _subjectRepositoryAsync.GetByIdAsync(request.Id, cancellationToken);
             if (subject == null) 
-                return new Response<int>($"Subject with ID {request.Id} not found");
+                return new Response<Guid>($"Subject with ID {request.Id} not found");
 
             subject.IsActive  = !subject.IsActive;
             await _subjectRepositoryAsync.UpdateAsync(subject, cancellationToken);
 
             var status = subject.IsActive ? "reactivated" : "deactivated";
-            return new Response<int>(subject.Id, $"Subject successfully {status}");
+            return new Response<Guid>(subject.Id, $"Subject successfully {status}");
         }
     }
 }

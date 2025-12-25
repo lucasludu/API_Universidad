@@ -5,7 +5,7 @@ namespace Domain.Entities
         public Guid ProfesorId { get; set; }
         public Profesor Profesor { get; set; }
 
-        public int SubjectId { get; set; } 
+        public Guid SubjectId { get; set; } 
         public Subject Subject { get; set; }
     }
 

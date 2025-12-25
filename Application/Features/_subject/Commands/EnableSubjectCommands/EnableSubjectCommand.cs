@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features._subject.Commands.EnableSubjectCommands
 {
-    public class EnableSubjectCommand : IRequest<Response<int>>
+    public class EnableSubjectCommand : IRequest<Response<Guid>>
     {
         public int Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace Application.Features._subject.Commands.EnableSubjectCommands
             Id = id;
         }
     }
-    public class EnableSubjectCommandHandler : IRequestHandler<EnableSubjectCommand, Response<int>>
+    public class EnableSubjectCommandHandler : IRequestHandler<EnableSubjectCommand, Response<Guid>>
     {
         private readonly IRepositoryAsync<Subject> _subjectRepositoryAsync;
 
@@ -23,19 +23,19 @@ namespace Application.Features._subject.Commands.EnableSubjectCommands
             _subjectRepositoryAsync = subjectRepositoryAsync;
         }
 
-        public async Task<Response<int>> Handle(EnableSubjectCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(EnableSubjectCommand request, CancellationToken cancellationToken)
         {
             var subject = await _subjectRepositoryAsync.GetByIdAsync(request.Id, cancellationToken);
             if(subject == null) 
-                return new Response<int>($"Subject with ID {request.Id} not found");
+                return new Response<Guid>($"Subject with ID {request.Id} not found");
 
             if (subject.IsActive)
-                return new Response<int>($"Subject with ID {request.Id} is already active");
+                return new Response<Guid>($"Subject with ID {request.Id} is already active");
 
             subject.IsActive = true;
             await _subjectRepositoryAsync.UpdateAsync(subject, cancellationToken);
 
-            return new Response<int>(subject.Id, "Subject succesfully reactivated");
+            return new Response<Guid>(subject.Id, "Subject succesfully reactivated");
         }
     }
 }

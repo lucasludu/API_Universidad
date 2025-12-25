@@ -2,7 +2,7 @@ using Domain.Common;
 
 namespace Domain.Entities
 {
-    public class Profesor : TraceableEntity
+    public class Profesor : BaseEntity
     {
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }

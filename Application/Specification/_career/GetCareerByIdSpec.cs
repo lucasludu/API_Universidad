@@ -5,7 +5,7 @@ namespace Application.Specification._career
 {
     public class GetCareerByIdSpec : Specification<Career>
     {
-        public GetCareerByIdSpec(int id)
+        public GetCareerByIdSpec(Guid id)
         {
             Query.Where(c => c.Id == id);
         }

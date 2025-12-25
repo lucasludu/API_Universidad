@@ -5,7 +5,7 @@ namespace Application.Specification._career_subject
 {
     public class GetRelationCareerSubjectSpec : Specification<CareerSubject>
     {
-        public GetRelationCareerSubjectSpec(int careerId, int subjectId)
+        public GetRelationCareerSubjectSpec(Guid careerId, Guid subjectId)
         {
             Query
                 .Where(cs => cs.CareerId == careerId && cs.SubjectId == subjectId)

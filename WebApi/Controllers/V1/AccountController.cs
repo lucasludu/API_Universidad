@@ -1,5 +1,6 @@
 using Application.DTOs._auth.Request;
 using Application.Features._auth.Commands.AuthenticateUser;
+using Application.Features._auth.Commands.RefreshTokenCommands;
 using Application.Features._auth.Commands.RegisterUser;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +35,18 @@ namespace WebApi.Controllers.V1
                 Role = request.Role
             }));
         }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
+        {
+            return Ok(await Mediator.Send(new RefreshTokenCommand
+            {
+                RefreshToken = refreshToken,
+                IpAddress = GenerateIPAddress()
+            }
+            ));
+        }
+
 
         private string GenerateIPAddress()
         {

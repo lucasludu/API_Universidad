@@ -62,6 +62,45 @@ namespace Persistence.Services
             }, "Authenticated Successfully!");
         }
 
+        public async Task<Response<AuthenticationResponse>> RefreshTokenAsync(string token, string ipAddress)
+        {
+            // Buscamos al usuario dueño de ese token (usando LINQ sobre la lista en memoria si no usas includes, 
+            // pero idealmente UserManager debería soportarlo o usar tu repositorio)
+            var user = _userManager.Users.ToList().SingleOrDefault(u => u.RefreshTokens.Any(t => t.Token == token));
+
+            if (user == null) 
+                return new Response<AuthenticationResponse>("Token no encontrado.");
+
+            var refreshToken = user.RefreshTokens.Single(x => x.Token == token);
+
+            // Validaciones básicas
+            if (!refreshToken.IsActive) 
+                return new Response<AuthenticationResponse>("Token inactivo o expirado.");
+
+            // ROTACIÓN DE TOKENS (Seguridad): Revocamos el anterior para que no se use más
+            refreshToken.Revoked = DateTime.UtcNow;
+            refreshToken.RevokedByIp = ipAddress;
+
+            // Generamos nuevos
+            var rolesList = await _userManager.GetRolesAsync(user);
+            var newJwtToken = GenerateJwtToken(user, rolesList);
+            var newRefreshToken = GenerateRefreshToken(ipAddress);
+
+            user.RefreshTokens.Add(newRefreshToken);
+            await _userManager.UpdateAsync(user);
+
+            return new Response<AuthenticationResponse>(new AuthenticationResponse
+            {
+                Id = user.Id,
+                JWToken = newJwtToken,
+                Email = user.Email,
+                UserName = user.UserName,
+                Roles = rolesList.ToList(),
+                IsVerified = true,
+                RefreshToken = newRefreshToken.Token
+            }, "Token refrescado correctamente.");
+        }
+
         public async Task<Response<string>> RegisterAsync(RegisterUserRequest request, string origin)
         {
             var userWithSameEmail = await _userManager.FindByEmailAsync(request.Email);

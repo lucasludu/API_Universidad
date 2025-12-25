@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features._career.Commands.EnableCareerCommands
 {
-    public class EnableCareerCommand : IRequest<Response<int>>
+    public class EnableCareerCommand : IRequest<Response<Guid>>
     {
         public int Id { get; set; }
 
@@ -20,7 +20,7 @@ namespace Application.Features._career.Commands.EnableCareerCommands
         }
     }
 
-    public class EnableCareerCommandHandler : IRequestHandler<EnableCareerCommand, Response<int>>
+    public class EnableCareerCommandHandler : IRequestHandler<EnableCareerCommand, Response<Guid>>
     {
         private readonly IRepositoryAsync<Career> _careerRepositoryAsync;
 
@@ -29,19 +29,19 @@ namespace Application.Features._career.Commands.EnableCareerCommands
             _careerRepositoryAsync = careerRepositoryAsync;
         }
 
-        public async Task<Response<int>> Handle(EnableCareerCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(EnableCareerCommand request, CancellationToken cancellationToken)
         {
             var career = await _careerRepositoryAsync.GetByIdAsync(request.Id, cancellationToken);
             if (career == null)
-                return new Response<int>($"Career with ID {request.Id} not found");
+                return new Response<Guid>($"Career with ID {request.Id} not found");
 
             if (career.IsActive)
-                return new Response<int>($"Career with ID {request.Id} is already active");
+                return new Response<Guid>($"Career with ID {request.Id} is already active");
 
             career.IsActive = true;
             await _careerRepositoryAsync.UpdateAsync(career, cancellationToken);
 
-            return new Response<int>(career.Id, "Career successfully reactivated");
+            return new Response<Guid>(career.Id, "Career successfully reactivated");
         }
     }
 

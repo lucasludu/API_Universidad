@@ -124,11 +124,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Career", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -162,11 +160,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.CareerSubject", b =>
                 {
-                    b.Property<int>("CareerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CareerId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Semester")
                         .HasColumnType("int");
@@ -191,8 +189,8 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CareerId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("CareerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -229,8 +227,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("EstudianteId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("Calificacion")
                         .HasColumnType("int");
@@ -288,8 +286,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ProfesorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ProfesorId", "SubjectId");
 
@@ -300,11 +298,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.RefreshToken", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
@@ -341,11 +337,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Subject", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");

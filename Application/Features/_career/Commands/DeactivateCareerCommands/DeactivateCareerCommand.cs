@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Features._career.Commands.DeactivateCareerCommands
 {
-    public class DeactivateCareerCommand : IRequest<Response<int>>
+    public class DeactivateCareerCommand : IRequest<Response<Guid>>
     {
         public int Id { get; set; }
 
@@ -15,7 +15,7 @@ namespace Application.Features._career.Commands.DeactivateCareerCommands
         }
     }
 
-    public class DeactivateCareerCommandHandler : IRequestHandler<DeactivateCareerCommand, Response<int>>
+    public class DeactivateCareerCommandHandler : IRequestHandler<DeactivateCareerCommand, Response<Guid>>
     {
         private readonly IRepositoryAsync<Career> _careerRepositoryAsync;
 
@@ -24,19 +24,19 @@ namespace Application.Features._career.Commands.DeactivateCareerCommands
             _careerRepositoryAsync = careerRepositoryAsync;
         }
 
-        public async Task<Response<int>> Handle(DeactivateCareerCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Guid>> Handle(DeactivateCareerCommand request, CancellationToken cancellationToken)
         {
             var career = await _careerRepositoryAsync.GetByIdAsync(request.Id, cancellationToken);
             if (career == null)
-                return new Response<int>($"Career with ID {request.Id} not found");
+                return new Response<Guid>($"Career with ID {request.Id} not found");
 
             if (!career.IsActive)
-                return new Response<int>($"Career with ID {request.Id} is already inactive");
+                return new Response<Guid>($"Career with ID {request.Id} is already inactive");
 
             career.IsActive = false;
             await _careerRepositoryAsync.UpdateAsync(career, cancellationToken);
 
-            return new Response<int>(career.Id, "Career successfully deactivated");
+            return new Response<Guid>(career.Id, "Career successfully deactivated");
         }
     }
 }
